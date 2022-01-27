@@ -1,0 +1,56 @@
+{
+  "name": "chfur/appgallery-iap",
+  "description": "PHP AppGallery In-App Purchase implementation",
+  "keywords": [
+    "appgallery",
+    "iap",
+    "appgallery-iap",
+    "laravel",
+    "symfony"
+  ],
+  "homepage": "https://github.com/CHfur/appgallery-iap",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "chfur",
+      "homepage": "https://github.com/CHfur"
+    },
+    {
+      "name": "skelag",
+      "email": "cugfug576@gmail.com"
+    }
+  ],
+  "require": {
+    "ext-openssl": "*",
+    "stafox/huawei-iap": "1.0.0",
+    "phpseclib/phpseclib": "^3.0",
+    "nesbot/carbon": "^2.51"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "symfony/var-dumper": "^5.3",
+    "vimeo/psalm": "^4.9",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "fakerphp/faker": "^1.15"
+  },
+  "autoload": {
+    "psr-4": {
+      "CHfur\\AppGallery\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CHfur\\AppGallery\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "psalm": "vendor/bin/psalm",
+    "psalm-info": "vendor/bin/psalm --show-info=true",
+    "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+    "check-style": "vendor/bin/php-cs-fixer fix --dry-run",
+    "test": "vendor/bin/phpunit --testdox"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
