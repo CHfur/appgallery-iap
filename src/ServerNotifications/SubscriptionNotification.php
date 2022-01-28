@@ -116,14 +116,14 @@ class SubscriptionNotification
         $this->environment = $statusUpdateNotification->environment;
         $this->notificationType = $statusUpdateNotification->notificationType;
         $this->subscriptionId = $statusUpdateNotification->subscriptionId;
-        $this->cancellationDate = $statusUpdateNotification->cancellationDate;
-        $this->latestReceipt = $statusUpdateNotification->latestReceipt;
-        $this->latestExpiredReceipt = $statusUpdateNotification->latestExpiredReceipt;
+        $this->cancellationDate = $statusUpdateNotification->cancellationDate ?? null;
+        $this->latestReceipt = $statusUpdateNotification->latestReceipt ?? null;
+        $this->latestExpiredReceipt = $statusUpdateNotification->latestExpiredReceipt ?? null;
         $this->autoRenewStatus = $statusUpdateNotification->autoRenewStatus;
-        $this->refundPayOrderId = $statusUpdateNotification->refundPayOrderId;
+        $this->refundPayOrderId = $statusUpdateNotification->refundPayOrderId ?? null;
         $this->productId = $statusUpdateNotification->productId;
-        $this->applicationId = $statusUpdateNotification->applicationId;
-        $this->expirationIntent = $statusUpdateNotification->expirationIntent;
+        $this->applicationId = $statusUpdateNotification->applicationId ?? null;
+        $this->expirationIntent = $statusUpdateNotification->expirationIntent ?? null;
     }
 
     /**
@@ -231,17 +231,17 @@ class SubscriptionNotification
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getApplicationId(): string
+    public function getApplicationId(): ?string
     {
         return $this->applicationId;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getExpirationIntent(): int
+    public function getExpirationIntent(): ?int
     {
         return $this->expirationIntent;
     }

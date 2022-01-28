@@ -2,6 +2,7 @@
 
 namespace CHfur\AppGallery\Validation;
 
+use CHfur\AppGallery\Exceptions\InvalidPublicKeyException;
 use phpseclib3\Crypt\RSA;
 
 class SignatureVerifier
@@ -23,18 +24,24 @@ class SignatureVerifier
 
     /**
      * @return string
+     * @throws InvalidPublicKeyException
      */
     private function getPublicKey(): string
     {
         $begin_public = "-----BEGIN PUBLIC KEY-----\n";
         $end_public = "-----END PUBLIC KEY-----\n";
-        return $begin_public.chunk_split($this->publicKey, 64).$end_public;
+        $publicKey = $begin_public.chunk_split($this->publicKey, 64).$end_public;
+        if (openssl_get_publickey($publicKey)) {
+            return $publicKey;
+        }
+        throw InvalidPublicKeyException::create($this->publicKey);
     }
 
     /**
      * @param  string  $content
      * @param  string  $sign
      * @return bool
+     * @throws InvalidPublicKeyException
      */
     private function verifySHA256WithRSA(string $content, string $sign): bool
     {
@@ -46,6 +53,7 @@ class SignatureVerifier
      * @param  string  $content
      * @param  string  $sign
      * @return bool
+     * @throws InvalidPublicKeyException
      */
     private function verifySHA256WithRSAPSS(string $content, string $sign): bool
     {
@@ -57,6 +65,7 @@ class SignatureVerifier
      * @param  string  $sign
      * @param  string  $algorithm
      * @return bool
+     * @throws InvalidPublicKeyException
      */
     public function verify(string $content, string $sign, string $algorithm): bool
     {

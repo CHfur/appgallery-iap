@@ -2,6 +2,7 @@
 
 namespace CHfur\AppGallery\ServerNotifications;
 
+use CHfur\AppGallery\Exceptions\InvalidPublicKeyException;
 use CHfur\AppGallery\Exceptions\InvalidSignatureException;
 use CHfur\AppGallery\Validation\SignatureVerifier;
 
@@ -27,6 +28,7 @@ class ServerNotification
      * @param  string  $publicKey
      * @return ServerNotification|null
      * @throws InvalidSignatureException
+     * @throws InvalidPublicKeyException
      */
     public static function parse($data, string $publicKey): ?self
     {
@@ -46,6 +48,7 @@ class ServerNotification
      * @param  string  $publicKey
      * @return ServerNotification
      * @throws InvalidSignatureException
+     * @throws InvalidPublicKeyException
      */
     protected static function parseSubscriptionNotification($data, string $publicKey): ServerNotification
     {
@@ -68,7 +71,13 @@ class ServerNotification
     {
         $notification = new self();
 
-        $pendingPurchaseNotification = new PendingPurchaseNotification(...$data);
+        $pendingPurchaseNotification = new PendingPurchaseNotification(
+            $data->version,
+            $data->eventType,
+            $data->notifyTime,
+            $data->applicationId,
+            $data->orderNotification
+        );
 
         $notification->pendingPurchaseNotification = $pendingPurchaseNotification;
 
@@ -91,12 +100,18 @@ class ServerNotification
         return ! is_null($this->pendingPurchaseNotification);
     }
 
-    public function getSubscriptionNotification(): SubscriptionNotification
+    /**
+     * @return SubscriptionNotification|null
+     */
+    public function getSubscriptionNotification(): ?SubscriptionNotification
     {
         return $this->subscriptionNotification;
     }
 
-    public function getPendingPurchaseNotification(): PendingPurchaseNotification
+    /**
+     * @return PendingPurchaseNotification|null
+     */
+    public function getPendingPurchaseNotification(): ?PendingPurchaseNotification
     {
         return $this->pendingPurchaseNotification;
     }
@@ -105,13 +120,13 @@ class ServerNotification
      * @param $data
      * @param  string  $publicKey
      * @return void
-     * @throws InvalidSignatureException
+     * @throws InvalidSignatureException|InvalidPublicKeyException
      */
     private static function validateSignature($data, string $publicKey)
     {
         $signatureVerifier = new SignatureVerifier($publicKey);
 
-        $params = array_values($data);
+        $params = array_values((array)$data);
 
         if (! $signatureVerifier->verify(...$params)) {
             throw new InvalidSignatureException();
