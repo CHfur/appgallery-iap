@@ -88,5 +88,4 @@ The AppGallery IAP is an open-sourced software licensed under the [MIT license](
 
 ## TODO
 
-* Testing
 * Implementing verification without third-party packages

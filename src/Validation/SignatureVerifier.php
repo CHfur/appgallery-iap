@@ -34,6 +34,7 @@ class SignatureVerifier
         if (openssl_get_publickey($publicKey)) {
             return $publicKey;
         }
+
         throw InvalidPublicKeyException::create($this->publicKey);
     }
 
@@ -46,6 +47,7 @@ class SignatureVerifier
     private function verifySHA256WithRSA(string $content, string $sign): bool
     {
         $publicKey = openssl_get_publickey(self::getPublicKey());
+
         return (bool)openssl_verify($content, base64_decode($sign), $publicKey, OPENSSL_ALGO_SHA256);
     }
 

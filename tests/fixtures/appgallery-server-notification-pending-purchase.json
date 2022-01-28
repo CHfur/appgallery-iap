@@ -1,0 +1,12 @@
+{
+  "version": "v2",
+  "notifyTime": 1638302788109,
+  "eventType": "ORDER",
+  "applicationId": "1638302781639",
+  "orderNotification": {
+    "version": "v2",
+    "notificationType": 1,
+    "purchaseToken": "***",
+    "productId": "1638302781639"
+  }
+}

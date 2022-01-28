@@ -11,10 +11,10 @@ use Exception;
 class InvalidPublicKeyException extends Exception
 {
     /**
-     * @param $publicKey
+     * @param  string  $publicKey
      * @return InvalidPublicKeyException
      */
-    public static function create($publicKey): self
+    public static function create(string $publicKey): self
     {
         return new self(sprintf(
             'String \'%s\' cannot be converted to a valid public key',
