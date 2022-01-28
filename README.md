@@ -21,31 +21,72 @@ The AppGallery IAP verifying Order and Subscription services can be found in
 the [Package for verification](https://github.com/Stafox/huawei-iap). The implementation for the laravel framework can
 be found in the [Laravel In-App purchase package](https://github.com/imdhemy/laravel-in-app-purchases).
 
+### Notification About a Key Subscription Event
+
+You can use server notification handling "About a Key Subscription Event" as follow:
+
 ```php
 use CHfur\AppGallery\ServerNotifications\ServerNotification;
+use CHfur\AppGallery\ServerNotifications\SubscriptionNotification;
+use Huawei\IAP\Response\SubscriptionResponse;
 
-$data = [/* JSON decoded AppGallery ServerNotification request */];
+$data = [/* AppGallery ServerNotification request */];
 $publicKey = 'Your AppGallery notification public key';
 
-/** @var ServerNotification */
+/** @var ServerNotification $serverNotification */
 $serverNotification = ServerNotification::parse($data, $publicKey);
 
-$productId = $serverNotification->getProductId();
-$environment = $serverNotification->getEnvironment();
+if($serverNotification->isSubscriptionNotification()){
+    /** @var SubscriptionNotification $subscriptionNotification */
+    $subscriptionNotification = $serverNotification->getSubscriptionNotification();
+    
+    $productId = $subscriptionNotification->getProductId();
+    $environment = $subscriptionNotification->getEnvironment();
 
-$notificationTypeName = $serverNotification->getNotificationTypeName();
+    /** @var SubscriptionResponse $subscriptionResponse */
+    $subscriptionResponse = $subscriptionNotification->getSubscriptionResponse();
+    
+    $notificationTypeName = $subscriptionNotification->getNotificationTypeName();
+    
+    switch ($notificationTypeName){
+        case 'RENEWAL':
+            //implement your logic
+            break;
+    }
+}
+```
 
-switch ($notificationTypeName){
-    case 'RENEWAL':
-        //implement your logic
-        break;
+### Notification About a Key Event of Pending Purchase
+
+And also you can use server notification handling "About a Key Event of Pending Purchase" as follow:
+
+```php
+use CHfur\AppGallery\ServerNotifications\PendingPurchaseNotification;
+use CHfur\AppGallery\ServerNotifications\ServerNotification;
+
+$data = [/* AppGallery ServerNotification request */];
+$publicKey = 'Your AppGallery notification public key';
+
+/** @var ServerNotification $serverNotification */
+$serverNotification = ServerNotification::parse($data, $publicKey);
+
+if($serverNotification->isPendingPurchaseNotification()){
+    /** @var PendingPurchaseNotification $pendingPurchaseNotification */
+    $pendingPurchaseNotification = $serverNotification->getPendingPurchaseNotification();
+    
+    $productId = $pendingPurchaseNotification->getProductId();
+    $purchaseToken = $pendingPurchaseNotification->getPurchaseToken();
+    $isSuccessPayment = $pendingPurchaseNotification->getNotificationType();
+    
+    //implement your logic
 }
 ```
 
 ## License
 
-The App Store IAP is an open-sourced software licensed under the [MIT license](LICENSE.md).
+The AppGallery IAP is an open-sourced software licensed under the [MIT license](LICENSE.md).
 
 ## TODO
+
 * Testing
 * Implementing verification without third-party packages

@@ -22,6 +22,7 @@
   ],
   "require": {
     "ext-openssl": "*",
+    "ext-json": "*",
     "stafox/huawei-iap": "1.0.0",
     "phpseclib/phpseclib": "^3.0",
     "nesbot/carbon": "^2.51"
