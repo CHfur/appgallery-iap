@@ -21,6 +21,7 @@
     }
   ],
   "require": {
+    "php": "^7.1",
     "ext-openssl": "*",
     "ext-json": "*",
     "stafox/huawei-iap": "1.0.0",
