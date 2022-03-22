@@ -2,13 +2,13 @@
 
 namespace CHfur\AppGallery\Exceptions;
 
-use Exception;
+use LogicException;
 
 /**
  * Class InvalidSignatureException
  * @package CHfur\AppGallery\Exceptions
  */
-class InvalidSignatureException extends Exception
+class InvalidSignatureException extends LogicException
 {
     /**
      * @return InvalidSignatureException

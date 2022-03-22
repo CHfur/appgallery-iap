@@ -2,13 +2,13 @@
 
 namespace CHfur\AppGallery\Exceptions;
 
-use Exception;
+use DomainException;
 
 /**
  * Class InvalidPublicKeyException
  * @package CHfur\AppGallery\Exceptions
  */
-class InvalidPublicKeyException extends Exception
+class InvalidPublicKeyException extends DomainException
 {
     /**
      * @param  string  $publicKey
