@@ -18,7 +18,7 @@ class ServerNotificationTest extends TestCase
     public function test_it_can_parse_subscription_notification()
     {
         $path = realpath(__DIR__.'/../fixtures/appgallery-server-notification-subscription.json');
-        $serverNotificationBody = json_decode(file_get_contents($path));
+        $serverNotificationBody = json_decode(file_get_contents($path), true);
         $publicKey = file_get_contents(__DIR__.'/../fixtures/appgallery_public_key');
 
         $serverNotification = ServerNotification::parse($serverNotificationBody, $publicKey);
@@ -36,7 +36,7 @@ class ServerNotificationTest extends TestCase
     public function test_it_throw_signature_exception_on_subscription_notification()
     {
         $path = realpath(__DIR__.'/../fixtures/appgallery-server-notification-subscription.json');
-        $serverNotificationBody = json_decode(file_get_contents($path));
+        $serverNotificationBody = json_decode(file_get_contents($path), true);
         $publicKey = file_get_contents(__DIR__.'/../fixtures/wrong_appgallery_public_key');
 
         try {
@@ -53,7 +53,7 @@ class ServerNotificationTest extends TestCase
     public function test_it_throw_public_key_exception_on_subscription_notification()
     {
         $path = realpath(__DIR__.'/../fixtures/appgallery-server-notification-subscription.json');
-        $serverNotificationBody = json_decode(file_get_contents($path));
+        $serverNotificationBody = json_decode(file_get_contents($path), true);
 
         try {
             ServerNotification::parse($serverNotificationBody, 'invalid');
@@ -70,7 +70,7 @@ class ServerNotificationTest extends TestCase
     public function test_it_can_parse_pending_purchase_notification()
     {
         $path = realpath(__DIR__.'/../fixtures/appgallery-server-notification-pending-purchase.json');
-        $serverNotificationBody = json_decode(file_get_contents($path));
+        $serverNotificationBody = json_decode(file_get_contents($path), true);
         $publicKey = file_get_contents(__DIR__.'/../fixtures/appgallery_public_key');
 
         $serverNotification = ServerNotification::parse($serverNotificationBody, $publicKey);

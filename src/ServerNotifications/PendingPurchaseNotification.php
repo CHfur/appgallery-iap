@@ -15,7 +15,7 @@ class PendingPurchaseNotification
 
     /**
      * Notification version, always v2.
-     * @var int
+     * @var string
      */
     protected $notificationVersion;
 
@@ -54,22 +54,22 @@ class PendingPurchaseNotification
      * @param  string  $eventType
      * @param  int  $notifyTime
      * @param  string  $applicationId
-     * @param $orderNotification
+     * @param  array  $orderNotification
      */
     public function __construct(
         string $version,
         string $eventType,
         int $notifyTime,
         string $applicationId,
-        $orderNotification
+        array $orderNotification
     ) {
         $this->notificationVersion = $version;
         $this->eventType = $eventType;
         $this->notifyTime = new Time($notifyTime);
         $this->applicationId = $applicationId;
-        $this->notificationType = $orderNotification->notificationType;
-        $this->purchaseToken = $orderNotification->purchaseToken;
-        $this->productId = $orderNotification->productId;
+        $this->notificationType = $orderNotification['notificationType'];
+        $this->purchaseToken = $orderNotification['purchaseToken'];
+        $this->productId = $orderNotification['productId'];
     }
 
     /**
@@ -97,9 +97,9 @@ class PendingPurchaseNotification
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getNotificationVersion()
+    public function getNotificationVersion(): string
     {
         return $this->notificationVersion;
     }

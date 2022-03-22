@@ -24,19 +24,19 @@ class ServerNotification
     protected $pendingPurchaseNotification;
 
     /**
-     * @param  $data  | Request body from AppGallery notification server
+     * @param  array  $data  | Request body from AppGallery notification server
      * @param  string  $publicKey
      * @return ServerNotification|null
      * @throws InvalidSignatureException
      * @throws InvalidPublicKeyException
      */
-    public static function parse($data, string $publicKey): ?self
+    public static function parse(array $data, string $publicKey): ?self
     {
-        if (isset($data->eventType) && $data->eventType == 'ORDER') {
+        if (isset($data['eventType']) && $data['eventType'] == 'ORDER') {
             return self::parsePendingPurchaseNotification($data);
         }
 
-        if (isset($data->statusUpdateNotification)) {
+        if (isset($data['statusUpdateNotification'])) {
             return self::parseSubscriptionNotification($data, $publicKey);
         }
 
@@ -44,19 +44,19 @@ class ServerNotification
     }
 
     /**
-     * @param $data
+     * @param  array  $data
      * @param  string  $publicKey
      * @return ServerNotification
      * @throws InvalidSignatureException
      * @throws InvalidPublicKeyException
      */
-    protected static function parseSubscriptionNotification($data, string $publicKey): ServerNotification
+    protected static function parseSubscriptionNotification(array $data, string $publicKey): ServerNotification
     {
         self::validateSignature($data, $publicKey);
 
         $notification = new self();
 
-        $subscriptionNotification = new SubscriptionNotification(json_decode($data->statusUpdateNotification));
+        $subscriptionNotification = new SubscriptionNotification(json_decode($data['statusUpdateNotification']));
 
         $notification->subscriptionNotification = $subscriptionNotification;
 
@@ -64,19 +64,19 @@ class ServerNotification
     }
 
     /**
-     * @param $data
+     * @param  array  $data
      * @return ServerNotification
      */
-    protected static function parsePendingPurchaseNotification($data): ServerNotification
+    protected static function parsePendingPurchaseNotification(array $data): ServerNotification
     {
         $notification = new self();
 
         $pendingPurchaseNotification = new PendingPurchaseNotification(
-            $data->version,
-            $data->eventType,
-            $data->notifyTime,
-            $data->applicationId,
-            $data->orderNotification
+            $data['version'],
+            $data['eventType'],
+            $data['notifyTime'],
+            $data['applicationId'],
+            $data['orderNotification']
         );
 
         $notification->pendingPurchaseNotification = $pendingPurchaseNotification;
@@ -117,18 +117,20 @@ class ServerNotification
     }
 
     /**
-     * @param $data
+     * @param  array  $data
      * @param  string  $publicKey
      * @return void
      * @throws InvalidSignatureException|InvalidPublicKeyException
      */
-    private static function validateSignature($data, string $publicKey)
+    private static function validateSignature(array $data, string $publicKey)
     {
         $signatureVerifier = new SignatureVerifier($publicKey);
 
-        $params = array_values((array)$data);
-
-        if (! $signatureVerifier->verify(...$params)) {
+        if (! $signatureVerifier->verify(
+            $data['statusUpdateNotification'],
+            $data['notifycationSignature'],
+            $data['signatureAlgorithm']
+        )) {
             throw new InvalidSignatureException();
         }
     }

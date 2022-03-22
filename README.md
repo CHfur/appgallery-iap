@@ -30,7 +30,12 @@ use CHfur\AppGallery\ServerNotifications\ServerNotification;
 use CHfur\AppGallery\ServerNotifications\SubscriptionNotification;
 use Huawei\IAP\Response\SubscriptionResponse;
 
-$data = [/* AppGallery ServerNotification request */];
+/** 
+ * @var array $data AppGallery ServerNotification request
+ * @see https://developer.huawei.com/consumer/en/doc/development/HMSCore-References/api-notifications-about-subscription-events-0000001050706084 
+*/
+$data = [];
+
 $publicKey = 'Your AppGallery notification public key';
 
 /** @var ServerNotification $serverNotification */
@@ -64,7 +69,12 @@ And also you can use server notification handling "About a Key Event of Pending 
 use CHfur\AppGallery\ServerNotifications\PendingPurchaseNotification;
 use CHfur\AppGallery\ServerNotifications\ServerNotification;
 
-$data = [/* AppGallery ServerNotification request */];
+/** 
+ * @var array $data AppGallery ServerNotification request
+ * @see https://developer.huawei.com/consumer/en/doc/development/HMSCore-References/api-notifications-about-pending-payment-events-0000001230063777 
+*/
+$data = [];
+
 $publicKey = 'Your AppGallery notification public key';
 
 /** @var ServerNotification $serverNotification */
