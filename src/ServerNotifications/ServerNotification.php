@@ -27,8 +27,6 @@ class ServerNotification
      * @param  array  $data  | Request body from AppGallery notification server
      * @param  string  $publicKey
      * @return ServerNotification|null
-     * @throws InvalidSignatureException
-     * @throws InvalidPublicKeyException
      */
     public static function parse(array $data, string $publicKey): ?self
     {
@@ -47,8 +45,6 @@ class ServerNotification
      * @param  array  $data
      * @param  string  $publicKey
      * @return ServerNotification
-     * @throws InvalidSignatureException
-     * @throws InvalidPublicKeyException
      */
     protected static function parseSubscriptionNotification(array $data, string $publicKey): ServerNotification
     {
@@ -120,7 +116,6 @@ class ServerNotification
      * @param  array  $data
      * @param  string  $publicKey
      * @return void
-     * @throws InvalidSignatureException|InvalidPublicKeyException
      */
     private static function validateSignature(array $data, string $publicKey)
     {

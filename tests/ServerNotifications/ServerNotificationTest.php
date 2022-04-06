@@ -13,7 +13,6 @@ class ServerNotificationTest extends TestCase
 {
     /**
      * @test
-     * @throws InvalidSignatureException|InvalidPublicKeyException
      */
     public function test_it_can_parse_subscription_notification()
     {
@@ -65,7 +64,6 @@ class ServerNotificationTest extends TestCase
 
     /**
      * @test
-     * @throws InvalidSignatureException|InvalidPublicKeyException
      */
     public function test_it_can_parse_pending_purchase_notification()
     {
@@ -87,7 +85,6 @@ class ServerNotificationTest extends TestCase
 
     /**
      * @test
-     * @throws InvalidSignatureException|InvalidPublicKeyException
      */
     public function test_it_returns_null_when_receive_invalid_data()
     {

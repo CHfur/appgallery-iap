@@ -24,7 +24,6 @@ class SignatureVerifier
 
     /**
      * @return string
-     * @throws InvalidPublicKeyException
      */
     private function getPublicKey(): string
     {
@@ -42,7 +41,6 @@ class SignatureVerifier
      * @param  string  $content
      * @param  string  $sign
      * @return bool
-     * @throws InvalidPublicKeyException
      */
     private function verifySHA256WithRSA(string $content, string $sign): bool
     {
@@ -55,7 +53,6 @@ class SignatureVerifier
      * @param  string  $content
      * @param  string  $sign
      * @return bool
-     * @throws InvalidPublicKeyException
      */
     private function verifySHA256WithRSAPSS(string $content, string $sign): bool
     {
@@ -67,7 +64,6 @@ class SignatureVerifier
      * @param  string  $sign
      * @param  string  $algorithm
      * @return bool
-     * @throws InvalidPublicKeyException
      */
     public function verify(string $content, string $sign, string $algorithm): bool
     {
